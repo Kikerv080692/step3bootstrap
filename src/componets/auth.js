@@ -8,16 +8,11 @@ class Enter {
   constructor(id, modal) {
     this.modal = modal;
     this.button = document.getElementById(id);
-    this.button.addEventListener("click", (e) => {
-      e.preventDefault();
-      this.login();
-    
-        
-      
-    });
+   
     this.modalLogin = new Modal(this.modal.modal, {
       keyboard: false,
     });
+    this.login()
   }
   changeTitle() {
     this.isEnter = !this.isEnter;
@@ -57,7 +52,6 @@ class Enter {
     
     });
     this.modalLogin.hide();
-   
   }
 
   async fetchAuth(data) {
