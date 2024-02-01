@@ -1,5 +1,6 @@
 import { Modal } from "bootstrap";
 import { getCookie } from "./cookie.js";
+import Visit from "./visit.js";
 
 class CreateVisit {
   constructor(modal) {
@@ -7,10 +8,9 @@ class CreateVisit {
     this.modalLogin = new Modal(this.modal.modal, {
       keyboard: false,
     });
-   
   }
 
-  create() {
+  create(board) {
     this.modal.modalLabel.textContent = "Створення візиту";
     this.modal.modalBody.innerHTML = `<form id="createForm">
             <div class="mb-3">
@@ -78,12 +78,18 @@ class CreateVisit {
             </fieldset >
 
             <fieldset class="d-none" id="dantist">
-                dantist
+              <div class="mb-3">
+                <label for="date"  class="form-label">Дата останнього відвідування</label>
+                 <input type="text" name="date" class="form-control" id="date">
+              </div> 
             </fieldset >
 
 
             <fieldset class="d-none" id="terapevt">
-                 terapevt
+              <div class="mb-3">
+                <label for="age"  class="form-label">Вік</label>
+                <input type="text" name="age" class="form-control" id="age">
+              </div>  
             </fieldset>
 
 
@@ -119,11 +125,16 @@ class CreateVisit {
           objFormData[key] = value;
         }
       }
-      const visit = await this.fetchCreate(objFormData);
-      
+      const dataVisit = await this.fetchCreate(objFormData);
+
+
       this.modalLogin.hide();
-      console.log(0,visit)
-      return visit
+      const visit = new Visit(dataVisit) 
+      console.log(3, board)
+      const card = document.createElement('div')
+      card.innerHTML = visit.renderVisit()
+      board.appendChild(card)
+    
     });
     this.modalLogin.hide();
   }
@@ -142,34 +153,13 @@ class CreateVisit {
         }),
       });
       if (response.ok) {
-        return response.text();
+        return await response.text();
       } else {
         console.log("Incorect form");
       }
     } catch (error) {
       throw new Error(error);
     }
-
-    // try {
-    //   const { email, password } = data;
-    //   const response = await fetch(
-    //     "https://ajax.test-danit.com/api/v2/cards/login",
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({ email, password }),
-    //     }
-    //   );
-    //   if (response.ok) {
-    //     return response.text();
-    //   } else {
-    //     console.log("Incorect user name or password");
-    //   }
-    // } catch (error) {
-    //   throw new Error(error);
-    // }
   }
 }
 
