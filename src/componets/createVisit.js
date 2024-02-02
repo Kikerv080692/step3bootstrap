@@ -1,6 +1,7 @@
 import { Modal } from "bootstrap";
 import { getCookie } from "./cookie.js";
 import Visit from "./visit.js";
+import { Collapse } from 'bootstrap'
 
 class CreateVisit {
   constructor(modal) {
@@ -12,9 +13,14 @@ class CreateVisit {
 
   create(board) {
     this.modal.modalLabel.textContent = "Створення візиту";
-    this.modal.modalBody.innerHTML = `<form id="createForm">
+    this.modal.modalBody.innerHTML = `<form class="p-3" id="createForm">
             <div class="mb-3">
-              <label for="doctor" class="form-label">Doctor</label>
+              <label for="fullName"  class="form-label">ПІБ</label>
+              <input type="text" name="fullName" class="form-control" id="fullName">
+            </div> 
+
+            <div class="mb-3">
+              <label for="doctor" class="form-label">Лікар</label>
               <select
               name="doctor"
               id="doctor"
@@ -27,6 +33,7 @@ class CreateVisit {
               <option value="terapevt">Терапевт</option>
             </select>
             </div>
+            
 
             <div class="mb-3">
                 <label for="meta"  class="form-label">Мета візиту</label>
@@ -53,10 +60,7 @@ class CreateVisit {
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label for="fullName"  class="form-label">ПІБ</label>
-                <input type="text" name="fullName" class="form-control" id="fullName">
-            </div> 
+           
 
             <fieldset class="d-none"  id="cardio">
                 <div class="mb-3">
@@ -91,11 +95,6 @@ class CreateVisit {
                 <input type="text" name="age" class="form-control" id="age">
               </div>  
             </fieldset>
-
-
-              
-           
-            
             <button type="submit" class="btn btn-primary">Cтворити</button>
                 </form>`;
     this.modalLogin.show();
@@ -126,15 +125,25 @@ class CreateVisit {
         }
       }
       const dataVisit = await this.fetchCreate(objFormData);
-
+      console.log(9,dataVisit)
 
       this.modalLogin.hide();
       const visit = new Visit(dataVisit) 
       console.log(3, board)
       const card = document.createElement('div')
+      card.classList.add('col-4', 'border')
       card.innerHTML = visit.renderVisit()
       board.appendChild(card)
-    
+      const myCollapse = document.getElementById(`collapse${dataVisit.id}`)
+      const bsCollapse = new Collapse(myCollapse, {
+      toggle: false
+})
+    const  button = document.getElementById(`button${dataVisit.id}`)
+    button.addEventListener('click', (event) => {
+      event.preventDefault()
+      bsCollapse.show()
+      button.style.display = 'none'
+    })
     });
     this.modalLogin.hide();
   }
@@ -153,7 +162,7 @@ class CreateVisit {
         }),
       });
       if (response.ok) {
-        return await response.text();
+        return await response.json();
       } else {
         console.log("Incorect form");
       }

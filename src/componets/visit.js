@@ -1,29 +1,30 @@
 class Visit {
-  form = [
-    {
+  form = {
+    fullName: {
       label: "Прізвище",
-      value: this.fullName,
+      value: "",
       type: "text",
-      name: "fullName",
     },
-
-    {
+    doctor: {
       label: "Доктор",
-      value: this.doctor,
+      value: "",
       type: "text",
-      name: "doctor",
     },
-    {
+    meta: {
       label: "Мета візиту",
-      value: this.meta,
+      value: "",
       type: "text",
-      name: "meta",
     },
-    {
+    description: {
+      label: "Опис візиту",
+      value: "",
+      type: "text",
+    },
+    term: {
       label: "Терміновість",
-      value: this.term,
+      value: "",
       type: "select",
-      name: "term",
+
       options: [
         {
           label: "Звичайна",
@@ -39,18 +40,16 @@ class Visit {
         },
       ],
     },
-  ];
+  };
   constructor(dataStr) {
-      const data = JSON.parse(dataStr)
-      console.log(6, data)
-    
-    this.form[0].value = data.data.fullName
-    this.description = data.data.description;
-    this.term = data.data.term;
-    this.meta = data.data.meta;
-    this.form[1].value = data.doctor;
-    this.id = data.id;
-    console.log(7, this.form)
+    const { id, data } = dataStr;
+
+    this.form.doctor.value = data.doctor;
+    this.form.description.value = data.description;
+    this.form.term.value = data.term;
+    this.form.meta.value = data.meta;
+    this.form.fullName.value = data.fullName;
+    this.id = id;
   }
 
   deleteVisit() {
@@ -60,61 +59,69 @@ class Visit {
   editVisit() {}
 
   renderVisit() {
-    console.log(1, this.form)
-    const fields = this.form
-      .map((element) => {
-        let field;
-        console.log(5, element)
-        switch (element.type) {
-          case "text":
-            field = `
-                     <div class="mb-3">
-                       <label for="${element.name}"  class="form-label">Мета візиту</label>
-                       <input type="text" name="${element.name}" class="form-control" id="${element.name}" value="${element.value}" desabled>
-                    </div>`;
-            break;
-          case "select":
-            field = `
-                <div class="mb-3">
-                    <label for="${element.name}" class="form-label">${
-              element.label
-            }</label>
-                    <select
-                        desabled
-                        name="${element.name}"
-                        id="${element.name}"
-                        class="form-select"
-                        aria-label="Пример выбора по умолчанию"
-                    >
-                    ${element
-                      .options.map((option) => {
-                        return `<option value="${option.value}" ${
-                          element.value === option.value ? "selected" : null
-                        }>${option.label}</option>`;
-                      })
-                      .join("")}
-                    </select>
-                </div>
-                `;
-            break;
-          default:
-            field = `
-             <div class="mb-3">
-                <label for="${element.name}"  class="form-label">Мета візиту</label>
-                <input type="text" name="${element.name}" class="form-control" id="${element.name}" value="${element.value}">
-             </div>`;
-        }
-        return field
-      })
-      .join("");
-      console.log(8, fields)
+    let fields = "";
+    for (let element in this.form) {
+      console.log(5, element);
+      let field;
+      this.form[element].value =  !this.form[element].value ?  '' :  this.form[element].value
+      switch (this.form[element].type) {
+        case "text":
+          field = `
+                   <div class="mb-3">
+                     <label for="${this.form[element].name}"  class="form-label">${this.form[element].label}</label>
+                     <input type="text" name="${this.form[element].name}" class="form-control" id="${this.form[element].name}" value="${this.form[element].value}" disabled>
+                  </div>`;
+          break;
+        case "select":
+          field = `
+              <div class="mb-3">
+                  <label for="${this.form[element].name}" class="form-label">${
+            this.form[element].label
+          }</label>
+                  <select
+                      disabled
+                      name="${this.form[element].name}"
+                      id="${this.form[element].name}"
+                      class="form-select"
+                      aria-label="Пример выбора по умолчанию"
+                  >
+                  ${this.form[element].options
+                    .map((option) => {
+                      return `<option value="${option.value}" ${
+                        this.form[element].value === option.value
+                          ? "selected"
+                          : null
+                      }>${option.label}</option>`;
+                    })
+                    .join("")}
+                  </select>
+              </div>
+              `;
+          break;
+        default:
+          field = `
+           <div class="mb-3">
+              <label for="${this.form[element].name}"  class="form-label">Мета візиту</label>
+              <input type="text" name="${this.form[element].name}" class="form-control" id="${this.form[element].name}" value="${this.form[element].value}" disabled>
+           </div>`;
+      }
+     
+      if(element === 'meta'){
+      field = `<button  class="btn btn-primary" type="button" id="button${this.id}">Показати більше</button>
+      <div class="collapse" id="collapse${this.id}">` + field
+
+      }
+      fields += field;
+    }
+    fields += `</div>`
+    console.log(8, fields);
     return `
-        <div class="col-4 border">
+        
             <form id="editForm${this.id}">
                 ${fields}
-                <button type="submit" class="btn btn-primary">Оновити</button>
+  
             </form>
-        </div>`;
+        `;
   }
 }
 
