@@ -1,7 +1,7 @@
 import { Modal } from "bootstrap";
 import { getCookie } from "./cookie.js";
 import Visit from "./visit.js";
-import { Collapse } from 'bootstrap'
+import { Collapse } from "bootstrap";
 
 class CreateVisit {
   constructor(modal) {
@@ -16,7 +16,7 @@ class CreateVisit {
     this.modal.modalBody.innerHTML = `<form class="p-3" id="createForm">
             <div class="mb-3">
               <label for="fullName"  class="form-label">ПІБ</label>
-              <input type="text" name="fullName" class="form-control" id="fullName">
+              <input type="text" name="fullName" class="form-control" id="fullName" required>
             </div> 
 
             <div class="mb-3">
@@ -125,25 +125,35 @@ class CreateVisit {
         }
       }
       const dataVisit = await this.fetchCreate(objFormData);
-      console.log(9,dataVisit)
+      console.log(9, dataVisit);
 
       this.modalLogin.hide();
-      const visit = new Visit(dataVisit) 
-      console.log(3, board)
-      const card = document.createElement('div')
-      card.classList.add('col-4', 'border')
-      card.innerHTML = visit.renderVisit()
-      board.appendChild(card)
-      const myCollapse = document.getElementById(`collapse${dataVisit.id}`)
+      const visit = new Visit(dataVisit);
+      console.log(3, board);
+      const card = document.createElement("div");
+      card.classList.add("col-4", "border");
+      card.innerHTML = visit.renderVisit();
+      board.appendChild(card);
+      const myCollapse = document.getElementById(`collapse${dataVisit.id}`);
       const bsCollapse = new Collapse(myCollapse, {
-      toggle: false
-})
-    const  button = document.getElementById(`button${dataVisit.id}`)
-    button.addEventListener('click', (event) => {
-      event.preventDefault()
-      bsCollapse.show()
-      button.style.display = 'none'
-    })
+        toggle: false,
+      });
+      const button = document.getElementById(`button${dataVisit.id}`);
+      button.addEventListener("click", (event) => {
+        event.preventDefault();
+        bsCollapse.show();
+        button.style.display = "none";
+      });
+      const buttonClose = document.getElementById(`btnClose${dataVisit.id}`)
+      buttonClose.addEventListener('click', (event) => {
+        event.preventDefault()
+        const isConfirm = window.confirm("Ви впевнені, що хочете видалити цей елемент?")
+        if(isConfirm){
+          card.remove();
+        }else{
+          event.stopPropagation()
+        }
+      })
     });
     this.modalLogin.hide();
   }

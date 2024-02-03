@@ -118,6 +118,9 @@ class Visit {
     return `
         
             <form id="editForm${this.id}">
+              <div class="d-flex justify-content-end">
+                  <button type="button" id="btnClose${this.id}" class="btn-close " aria-label="Close" ></button>
+              </div>
                 ${fields}
   
             </form>
