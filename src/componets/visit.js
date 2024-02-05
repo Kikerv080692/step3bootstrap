@@ -1,3 +1,4 @@
+import Board from "./board.js";
 class Visit {
   form = {
     fullName: {
@@ -52,10 +53,6 @@ class Visit {
     this.id = id;
   }
 
-  deleteVisit() {
-    delete this;
-  }
-
   editVisit() {}
 
   renderVisit() {
@@ -107,23 +104,21 @@ class Visit {
       }
      
       if(element === 'meta'){
-      field = `<button  class="btn btn-primary" type="button" id="button${this.id}">Показати більше</button>
-      <div class="collapse" id="collapse${this.id}">` + field
+      field = `<div class="collapse" id="collapse${this.id}">` + field
 
       }
       fields += field;
     }
-    fields += `</div>`
-    console.log(8, fields);
-    return `
-        
-            <form id="editForm${this.id}">
-              <div class="d-flex justify-content-end">
-                  <button type="button" id="btnClose${this.id}" class="btn-close " aria-label="Close" ></button>
-              </div>
+    fields += `</div><button  class="btn btn-primary" type="button" id="button${this.id}">Показати більше</button>`
+    return ` <div class="card">
+              <div class='card-header d-flex justify-content-end'> <button type="button" id="btnClose${this.id}" class="btn-close " aria-label="Close" ></button></div>
+            <form class="card-body" id="editForm${this.id}">
+             
+                 
+              
                 ${fields}
   
-            </form>
+            </form></div>
         `;
   }
 }
