@@ -7,7 +7,7 @@ class CreateVisit {
     this.modalLogin = new Modal(this.modal.modal, {
       keyboard: false,
     });
-    this.collapse = true
+    
 
   }
 
@@ -96,6 +96,7 @@ class CreateVisit {
               </div>  
             </fieldset>
             <button type="submit" class="btn btn-primary">Cтворити</button>
+            <button type="reset" class="btn btn-primary">Закрити</button>
                 </form>`;
     this.modalLogin.show();
 
@@ -114,6 +115,9 @@ class CreateVisit {
     });
 
     const form = document.getElementById("createForm");
+    form.addEventListener("reset", (e) => {
+        this.modalLogin.hide();
+    })
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const objFormData = {};

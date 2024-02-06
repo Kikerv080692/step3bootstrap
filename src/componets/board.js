@@ -9,27 +9,11 @@ class Board {
     this.defaultBoard();
   }
   addCard(dataVisit, isNew) {
-       if (isNew) {
-            this.visits.push(dataVisit);
-          
-     }
-    const visit = new Visit(dataVisit);
-    const card = document.createElement("div");
-    card.classList.add("col-4");
+    if (isNew) {
+      this.visits.push(dataVisit);
+    }
+    const visit = new Visit(dataVisit, this.board, this);
 
-    card.innerHTML = visit.renderVisit();
-    this.board.appendChild(card);
-    const myCollapse = document.getElementById(`collapse${dataVisit.id}`);
-    const bsCollapse = new Collapse(myCollapse, {
-      toggle: false,
-    });
-    const button = document.getElementById(`button${dataVisit.id}`);
-    button.addEventListener("click", (event) => {
-      event.preventDefault();
-      bsCollapse.toggle();
-      button.innerText = this.collapse ? "Згорнути" : "Показати більше";
-      this.collapse = !this.collapse;
-    });
     const buttonClose = document.getElementById(`btnClose${dataVisit.id}`);
     buttonClose.addEventListener("click", (event) => {
       event.preventDefault();
@@ -37,7 +21,7 @@ class Board {
         "Ви впевнені, що хочете видалити цей елемент?"
       );
       if (isConfirm) {
-        card.remove();
+        visit.removeVisit();
         this.deleteCard(dataVisit.id);
       } else {
         event.stopPropagation();
@@ -62,13 +46,12 @@ class Board {
 
   getVisits() {
     this.visits = JSON.parse(localStorage.getItem("visits"));
-    console.log(2, this.visits);
-    if (this.visits && this.visits.length !== 0 ) {
+    if (this.visits && this.visits.length !== 0) {
       this.visits.forEach((item) => {
         this.addCard(item, false);
       });
     } else {
-         this.visits = []
+      this.visits = [];
     }
   }
 
