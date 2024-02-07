@@ -26,8 +26,9 @@ class CreateVisit {
               id="doctor"
               class="form-select"
               aria-label="Пример выбора по умолчанию"
+              required
             >
-              <option selected>Вибір лікаря</option>
+              <option value="" disabled selected>Вибір лікаря</option>
               <option value="cardio">Кардіолог</option>
               <option value="dantist">Стоматолог</option>
               <option value="terapevt">Терапевт</option>

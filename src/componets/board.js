@@ -1,5 +1,6 @@
 import Visit from "./visit.js";
-import { Collapse } from "bootstrap";
+import VisitDentist from "./visitDentist.js";
+
 
 class Board {
   visits = [];
@@ -12,7 +13,18 @@ class Board {
     if (isNew) {
       this.visits.push(dataVisit);
     }
-    const visit = new Visit(dataVisit, this.board, this);
+
+    let visit = {};
+
+    switch (dataVisit.data.doctor) {
+      case "dantist":
+        console.log('dant');
+        visit = new VisitDentist(dataVisit, this.board, this);
+        break;
+      default:
+        visit = new Visit(dataVisit, this.board, this);
+    }
+   
 
     const buttonClose = document.getElementById(`btnClose${dataVisit.id}`);
     buttonClose.addEventListener("click", (event) => {

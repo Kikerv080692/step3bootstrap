@@ -71,18 +71,22 @@ class Visit {
     this.edited = false;
     this.boardObj = boardObj;
 
+    // const content = this.renderVisit();
+    // this.appendCard(content)
+  }
+
+  appendCard(content) {
     const card = document.createElement("div");
     this.card = card;
     card.classList.add("col-4");
-
-    card.innerHTML = this.renderVisit();
+    card.innerHTML = content
     this.board.appendChild(card);
-    const myCollapse = document.getElementById(`collapse${id}`);
+    const myCollapse = document.getElementById(`collapse${this.id}`);
     const bsCollapse = new Collapse(myCollapse, {
       toggle: false,
     });
-    const button = document.getElementById(`button${id}`);
-    const edit = document.getElementById(`edit${id}`);
+    const button = document.getElementById(`button${this.id}`);
+    const edit = document.getElementById(`edit${this.id}`);
     button.addEventListener("click", (event) => {
       event.preventDefault();
       bsCollapse.toggle();
@@ -106,13 +110,15 @@ class Visit {
         this.card.querySelectorAll("input, select").forEach((element) => {
           element.disabled = true;
         });
-        const form = document.getElementById(`editForm${this.id}`)
-        form.querySelectorAll('input, select').forEach((element) => {
-          console.log(3, element.getAttribute('name'), element.value)
-        })
-        const visitObj = boardObj.visits.filter((element) => {
+        const form = document.getElementById(`editForm${this.id}`);
+        form.querySelectorAll("input, select").forEach((element) => {
+          console.log(3, element.getAttribute("name"), element.value);
+        });
+        const visitObj = this.boardObj.visits.filter((element) => {
           element.id === this.id;
         });
+        // to do зробити збереження змін до локального сховища
+        console.log(10,visitObj)
       } else {
         this.edited = true;
         edit.textContent = "Зберегти";
@@ -130,40 +136,39 @@ class Visit {
     this.card.remove();
   }
 
-  editVisit() {}
-
-  renderVisit() {
+  renderVisit(form) {
+    console.log(9, form);
     let fields = "";
-    for (let element in this.form) {
+    for (let element in form) {
       let field;
-      this.form[element].value = !this.form[element].value
+      form[element].value = !form[element].value
         ? ""
-        : this.form[element].value;
-      switch (this.form[element].type) {
+        : form[element].value;
+      switch (form[element].type) {
         case "text":
           field = `
                    <div class="mb-3">
-                     <label for="${element}"  class="form-label">${this.form[element].label}</label>
-                     <input type="text" name="${element}" class="form-control" id="${this.form[element].name}" value="${this.form[element].value}" disabled>
+                     <label for="${element}"  class="form-label">${form[element].label}</label>
+                     <input type="text" name="${element}" class="form-control" id="${form[element].name}" value="${form[element].value}" disabled>
                   </div>`;
           break;
         case "select":
           field = `
               <div class="mb-3">
-                  <label for="${this.form[element].name}" class="form-label">${
-            this.form[element].label
+                  <label for="${form[element].name}" class="form-label">${
+            form[element].label
           }</label>
                   <select
                       disabled
                       name="${element}"
-                      id="${this.form[element].name}"
+                      id="${form[element].name}"
                       class="form-select"
                       aria-label="Пример выбора по умолчанию"
                   >
-                  ${this.form[element].options
+                  ${form[element].options
                     .map((option) => {
                       return `<option value="${option.value}" ${
-                        this.form[element].value === option.value
+                        form[element].value === option.value
                           ? "selected"
                           : null
                       }>${option.label}</option>`;
@@ -177,7 +182,7 @@ class Visit {
           field = `
            <div class="mb-3">
               <label for="${element}"  class="form-label">Мета візиту</label>
-              <input type="text" name="${element}" class="form-control" id="${this.form[element].name}" value="${this.form[element].value}" disabled>
+              <input type="text" name="${element}" class="form-control" id="${form[element].name}" value="${form[element].value}" disabled>
            </div>`;
       }
 
