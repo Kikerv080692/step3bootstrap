@@ -70,16 +70,14 @@ class Visit {
     this.collapse = true;
     this.edited = false;
     this.boardObj = boardObj;
-
-    // const content = this.renderVisit();
-    // this.appendCard(content)
   }
 
   appendCard(content) {
+    console.log(15,content)
     const card = document.createElement("div");
     this.card = card;
     card.classList.add("col-4");
-    card.innerHTML = content
+    card.innerHTML = content;
     this.board.appendChild(card);
     const myCollapse = document.getElementById(`collapse${this.id}`);
     const bsCollapse = new Collapse(myCollapse, {
@@ -118,7 +116,7 @@ class Visit {
           element.id === this.id;
         });
         // to do зробити збереження змін до локального сховища
-        console.log(10,visitObj)
+        console.log(10, visitObj);
       } else {
         this.edited = true;
         edit.textContent = "Зберегти";
@@ -141,9 +139,7 @@ class Visit {
     let fields = "";
     for (let element in form) {
       let field;
-      form[element].value = !form[element].value
-        ? ""
-        : form[element].value;
+      form[element].value = !form[element].value ? "" : form[element].value;
       switch (form[element].type) {
         case "text":
           field = `
@@ -168,9 +164,7 @@ class Visit {
                   ${form[element].options
                     .map((option) => {
                       return `<option value="${option.value}" ${
-                        form[element].value === option.value
-                          ? "selected"
-                          : null
+                        form[element].value === option.value ? "selected" : null
                       }>${option.label}</option>`;
                     })
                     .join("")}
@@ -192,16 +186,13 @@ class Visit {
       fields += field;
     }
     fields += `</div><button  class="btn btn-primary" type="button" id="button${this.id}">Показати більше</button>
-              <button  class="btn btn-primary d-none" type="button" id="edit${this.id}">Редагувати</button>`;
+                     <button  class="btn btn-primary d-none" type="button" id="edit${this.id}">Редагувати</button>`;
     return ` <div class="card">
-              <div class='card-header d-flex justify-content-end'> <button type="button" id="btnClose${this.id}" class="btn-close " aria-label="Close" ></button></div>
-            <form class="card-body" id="editForm${this.id}">
-             
-                 
-              
-                ${fields}
-  
-            </form></div>
+                 <div class='card-header d-flex justify-content-end'> <button type="button" id="btnClose${this.id}" class="btn-close " aria-label="Close" ></button></div>
+                   <form class="card-body" id="editForm${this.id}">
+                      ${fields}
+                   </form>
+                </div>
         `;
   }
 }

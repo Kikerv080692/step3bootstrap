@@ -1,25 +1,25 @@
 import Visit from "./visit.js";
 
-class VisitDentist extends Visit {
+class VisitTherapist extends Visit {
   addedForm = {
-    date: {
-      label: "Дата останнього відвідування",
+    age: {
+      label: "вік",
       value: "",
       type: "text",
     },
   };
   constructor(dataStr, board, boardObj) {
-      super(dataStr, board, boardObj);
-      this.form = {...this.form, ...this.addedForm}
-      const { id, data } = dataStr;
-      console.log(11,data);
+    super(dataStr, board, boardObj);
+    this.form = { ...this.form, ...this.addedForm };
+    const { id, data } = dataStr;
+    console.log(11, data);
 
     this.form.doctor.value = data.doctor;
     this.form.description.value = data.description;
     this.form.term.value = data.term;
     this.form.meta.value = data.meta;
     this.form.fullName.value = data.fullName;
-    this.form.date.value = data.date
+    this.form.age.value = data.age;
     this.id = id;
     this.board = board;
     this.collapse = true;
@@ -30,4 +30,4 @@ class VisitDentist extends Visit {
   }
 }
 
-export default VisitDentist;
+export default VisitTherapist;

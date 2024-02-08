@@ -1,6 +1,7 @@
 import Visit from "./visit.js";
 import VisitDentist from "./visitDentist.js";
-
+import VisitCardiologist from "./visitCardiologist.js";
+import VisitTherapist from "./visitTherapist.js";
 
 class Board {
   visits = [];
@@ -15,16 +16,21 @@ class Board {
     }
 
     let visit = {};
-
+console.log(14, dataVisit);
     switch (dataVisit.data.doctor) {
       case "dantist":
-        console.log('dant');
+        console.log("dant");
         visit = new VisitDentist(dataVisit, this.board, this);
+        break;
+      case "cardio":
+        visit = new VisitCardiologist(dataVisit, this.board, this);
+        break;
+      case "terapevt":
+        visit = new VisitTherapist(dataVisit, this.board, this);
         break;
       default:
         visit = new Visit(dataVisit, this.board, this);
     }
-   
 
     const buttonClose = document.getElementById(`btnClose${dataVisit.id}`);
     buttonClose.addEventListener("click", (event) => {
