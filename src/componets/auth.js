@@ -1,5 +1,5 @@
 import { Modal } from "bootstrap";
-import { setCookie } from "./cookie.js";
+import { setCookie, getCookie } from "./cookie.js";
 
 class Enter {
   isEnter = false;
@@ -8,19 +8,29 @@ class Enter {
   constructor(id, modal) {
     this.modal = modal;
     this.button = document.getElementById(id);
-   
+    this.buttonExit = document.getElementById("exit");
+
     this.modalLogin = new Modal(this.modal.modal, {
       keyboard: false,
     });
-    this.login()
+    if (getCookie('token')) {
+      this.isEnter = true;
+      this.changeTitle(true)
+    } else {
+      this.changeTitle(false)
+    }
+    // this.login()
   }
-  changeTitle() {
-    this.isEnter = !this.isEnter;
+  changeTitle(isLogin) {
+    this.isEnter = isLogin;
     let title = this.isEnter ? "Створити візит" : "Вхід";
     this.button.textContent = title;
+    if (this.isEnter) {
+      this.buttonExit.classList.remove("d-none");
+    } 
   }
 
-  login() {
+  login(boardObj) {
     this.modal.modalLabel.textContent = "Авторизація";
     this.modal.modalBody.innerHTML = `<form id="loginForm">
         <div class="mb-3">
@@ -45,11 +55,12 @@ class Enter {
       for (const [key, value] of formData.entries()) {
         objFormData[key] = value;
       }
+
       const token = await this.fetchAuth(objFormData);
-      setCookie("token", token, 7);
+       setCookie("token", token, 7);
       this.modalLogin.hide();
-      this.changeTitle();
-    
+      this.changeTitle(true);
+      boardObj.getVisits()
     });
     this.modalLogin.hide();
   }

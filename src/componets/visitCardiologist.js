@@ -27,7 +27,7 @@ class VisitCardiologist extends Visit {
     super(dataStr, board, boardObj);
     this.form = { ...this.form, ...this.addedForm };
     const { id, data } = dataStr;
-    console.log(11, data);
+    
 
     this.form.doctor.value = data.doctor;
     this.form.description.value = data.description;
@@ -39,7 +39,7 @@ class VisitCardiologist extends Visit {
     this.form.press.value = data.press;
     this.form.mass.value = data.mass;
     this.form.heart.value = data.heart;
-    this.form.age.value = data.value;
+    this.form.age.value = data.age;
 
     this.board = board;
     this.collapse = true;

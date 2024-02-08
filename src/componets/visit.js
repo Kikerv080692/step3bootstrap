@@ -73,7 +73,6 @@ class Visit {
   }
 
   appendCard(content) {
-    console.log(15,content)
     const card = document.createElement("div");
     this.card = card;
     card.classList.add("col-4");
@@ -109,14 +108,20 @@ class Visit {
           element.disabled = true;
         });
         const form = document.getElementById(`editForm${this.id}`);
+        const editedVisit = {}
         form.querySelectorAll("input, select").forEach((element) => {
-          console.log(3, element.getAttribute("name"), element.value);
+          editedVisit[element.getAttribute("name")] = element.value;
         });
-        const visitObj = this.boardObj.visits.filter((element) => {
-          element.id === this.id;
+      
+
+        const visitIndex= this.boardObj.visits.findIndex((element) => {
+         return  element.id === this.id;
         });
+        this.boardObj.visits[visitIndex].data = { ...this.boardObj.visits[visitIndex].data, ...editedVisit }
+       
+        this.boardObj.saveUpdate()
         // to do зробити збереження змін до локального сховища
-        console.log(10, visitObj);
+    
       } else {
         this.edited = true;
         edit.textContent = "Зберегти";
@@ -135,7 +140,6 @@ class Visit {
   }
 
   renderVisit(form) {
-    console.log(9, form);
     let fields = "";
     for (let element in form) {
       let field;

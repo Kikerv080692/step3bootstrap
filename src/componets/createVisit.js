@@ -132,7 +132,6 @@ class CreateVisit {
       const dataVisit = await this.fetchCreate(objFormData);
 
       this.modalLogin.hide();
-      console.log(7, dataVisit)
       boardObj.addCard(dataVisit, true)
       
     });

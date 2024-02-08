@@ -16,10 +16,8 @@ class Board {
     }
 
     let visit = {};
-console.log(14, dataVisit);
     switch (dataVisit.data.doctor) {
       case "dantist":
-        console.log("dant");
         visit = new VisitDentist(dataVisit, this.board, this);
         break;
       case "cardio":

@@ -12,7 +12,7 @@ class VisitTherapist extends Visit {
     super(dataStr, board, boardObj);
     this.form = { ...this.form, ...this.addedForm };
     const { id, data } = dataStr;
-    console.log(11, data);
+   
 
     this.form.doctor.value = data.doctor;
     this.form.description.value = data.description;
