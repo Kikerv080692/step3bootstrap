@@ -35,20 +35,45 @@
           </ul>
           <div class="d-flex">
             <button id="enter" class="btn btn-outline-success">Вхід</button>
-            <button id="exit" class="btn btn-outline-success d-none">Вихід</button>
+            <button id="exit" class="btn btn-outline-success d-none">
+              Вихід
+            </button>
           </div>
         </div>
       </div>
     </nav>
-
-
+    <section class="filter">
+      <div class="filter__container">
+        <form class="filter__form" id="filter__form">
+          <div class="filter__field filter__field--title">
+            <input
+              class="form-control"
+              type="text"
+              id="title"
+              name="description"
+              placeholder="search by title"
+            />
+          </div>
+          <div class="filter__field filter__field--select">
+            <select id="urgency" name="term" class="form-select">
+              <option value="">Всі</option>
+              <option value="Звичайна">Звичайна</option>
+              <option value="Пріоритетна">Пріоритетна</option>
+              <option value="Невідкладна">Невідкладна</option>
+            </select>
+          </div>
+          <div class="filter__action">
+            <button class="btn btn-primary" id="submit__btn" type="submit">
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
 
     <section class="py-3">
       <div class="container">
-       
-        <div id="board" class="row">
-         
-        </div>
+        <div id="board" class="row"></div>
       </div>
     </section>
 
@@ -68,6 +93,5 @@
         </div>
       </div>
     </div>
-
   </body>
 </html>

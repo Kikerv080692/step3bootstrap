@@ -38,12 +38,12 @@ class CreateVisit {
 
             <div class="mb-3">
                 <label for="meta"  class="form-label">Мета візиту</label>
-                <input type="text" name="meta" class="form-control" id="meta">
+                <input type="text" name="meta" class="form-control" id="meta" required>
             </div> 
 
             <div class="mb-3">
                 <label for="description"  class="form-label">Короткий опис візиту</label>
-                <input type="text" name="description" class="form-control" id="description">
+                <input type="text" name="description" class="form-control" id="description" required>
             </div> 
 
             <div class="mb-3">
@@ -53,8 +53,9 @@ class CreateVisit {
                     id="term"
                     class="form-select"
                     aria-label="Пример выбора по умолчанию"
+                    required
                 >
-                    <option value="" selected>Терміновість</option>
+                    <option value="" disabled selected>Терміновість</option>
                     <option value="Звичайна">Звичайна</option>
                     <option value="Пріоритетна">Пріоритетна</option>
                     <option value="Невідкладна">Невідкладна</option>

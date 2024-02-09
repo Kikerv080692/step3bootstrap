@@ -5,6 +5,7 @@ import Enter from "./componets/auth.js";
 import { getCookie, eraseCookie } from "./componets/cookie.js";
 import CreateVisit from "./componets/createVisit.js";
 import Board from "./componets/board.js";
+import Filter from "./componets/filter.js";
 
 const button = document.getElementById("enter");
 const buttonExit = document.getElementById("exit");
@@ -41,4 +42,6 @@ buttonExit.addEventListener("click", (event) => {
   //  boardObj = null;
 });
 
+const formFilter = document.getElementById("filter__form");
+formFilter.addEventListener("submit" , filterObj.collectDataFromFilterForm);
 
